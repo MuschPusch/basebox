@@ -1,0 +1,67 @@
+name: PROJECT
+
+excludeFiles:
+  backup:
+    - "styles"
+    - "tmp"
+  copyFrom:
+    - "tmp"
+    - "styles"
+
+deploymentModule: PROJECT_deploy
+# common commands are executed when resetting/deploying an installation,
+# for all hosts. if 'useForDevelopment' is set, then 'development' is used
+common:
+  development:
+    # custom commands to run for development-installations, e.g:
+   deployment:
+    # custom commands to run for all other installations, e.g:
+    - "drush dis -y devel"
+hosts:
+  local:
+    host: PROJECT.dev
+    user: root
+    password: root
+    port: 222
+    # path to drupal's root folder
+    rootFolder: /var/www/public
+    gitRootFolder: /var/www
+    # path to the site's folder
+    siteFolder: /sites/default
+    filesFolder: /sites/default/files
+    backupFolder: /var/www/backups
+    useForDevelopment: true
+    # branch to pull
+    branch: develop
+    hasDrush: true
+    supportsInstall: true
+    reset:
+      - "drush vset -y devel_rebuild_theme_registry TRUE"
+      - "drush vset -y file_public_path 'sites/default/files'"
+      - "drush vset -y file_private_path 'sites/default/files/private'"
+      - "drush vset -y file_temporary_path 'sites/default/files/private/tmp'"
+    database:
+      name: drupal
+      user: root
+      pass: admin
+  PROJECT-live:
+    host: PROJECT.com
+    port: 22
+    user: PROJECT
+    branch: master
+    rootFolder: /var/www/vhosts/PROJECT.com/httpdocs/public
+    siteFolder: /sites/PROJECT.com
+    filesFolder: /sites/PROJECT.com/files
+    backupFolder: /var/www/vhosts/PROJECT.com
+    hasDrush: true
+    useForDevelopment: false
+    ignoreSubmodules: false
+    supportsBackups: true
+    supportsCopyFrom: true
+    supportsZippedBackups: true
+   #configuration needed for the install-task:
+    supportsInstalls: false
+    database:
+      user: drupal
+      pass: SOMEPASSWORD
+      name: drupal
