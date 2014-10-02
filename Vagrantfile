@@ -14,14 +14,16 @@ if !File.exist?(yamlFile)
 end
 
 yamlConfig = YAML.load_file(yamlFile)
+#sitename
+sitename = yamlConfig['hosts']['local']['host']
+# The project name is base for directories & the docker image name
+project_name = yamlConfig['name']
 
 
 # IP Address for the host only network, change it to anything you like
 # but please keep it within the IPv4 private network range
 ip_address = "33.33.33.18"
 
-# The project name is base for directories, hostname and alike
-project_name = yamlConfig['name']
 
 # Check hostmanager required plugin
 REQUIRED_PLUGINS = %w(vagrant-hostmanager)
@@ -54,8 +56,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # by modifying the host machines hosts file
   config.hostmanager.enabled = true
   config.hostmanager.manage_host = true
-  config.vm.hostname = project_name + ".dev"
-  config.hostmanager.aliases = [ "www." + project_name + ".dev" ]
+  config.vm.hostname = sitename
+  config.hostmanager.aliases = [ "www." + sitename ]
   config.vm.provision :hostmanager
 
   config.ssh.forward_agent = true
@@ -101,7 +103,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       s.inline = "cd /vagrant/_tools/docker ; bash ./run.sh $1 $2 --webRoot $3 --http 80 --ssh 222  --vhost $4"
     end
       s.privileged = true
-    s.args = [project_name, '/vagrant', '/var/www/public', project_name + '.dev']
+    s.args = [project_name, '/vagrant', '/var/www/public', sitename]
   end
 
   if File.file?('vagrant.local')
