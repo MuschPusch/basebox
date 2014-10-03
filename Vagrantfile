@@ -26,7 +26,7 @@ ip_address = "33.33.33.18"
 
 
 # Check hostmanager required plugin
-REQUIRED_PLUGINS = %w(vagrant-hostmanager)
+REQUIRED_PLUGINS = %w(vagrant-hostmanager vagrant-fabric)
 exit unless REQUIRED_PLUGINS.all? do |plugin|
   Vagrant.has_plugin?(plugin) || (
     puts "The #{plugin} plugin is required. Please install it with:"
@@ -104,6 +104,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
       s.privileged = true
     s.args = [project_name, '/vagrant', '/var/www/public', sitename]
+  end
+
+  config.vm.provision :fabric do |fabric|
+    fabric.fabfile_path = "./fabfile.py"
+    fabric.tasks = ["config:local install"]
   end
 
   if File.file?('vagrant.local')
