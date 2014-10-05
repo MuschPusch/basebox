@@ -6,24 +6,29 @@ A vagrant setup including Docker, deployment tools (Fabalicous) optimized for ni
 3. Copy fabfile.default.yaml to fabfile.yaml and put your project info. If you wanna just create a local version and be up and running quickly. Still it's highly recommended to have a look at the fabfile.default.yaml for all the options
 
 ```
-name: PROJECTNAME
+# Example config for Drupal 8 (would work for 7 too). You need to have drupal downloaded to 'public'
+name: drupal8
 hosts:
   local:
-    host: yourproject.dev
+    host: d8.dev
     user: root
     password: root
     port: 222
-    useForDevelopment: true
-    rootFolder: /var/www
-    # path to the site's folder
+    rootFolder: /var/www/public
+    gitRootFolder: /var/www
     siteFolder: /sites/default
+    gitRootFolder: /var/www
+    # path to the site's folder
     filesFolder: /sites/default/files
     backupFolder: /var/www/backups
     useForDevelopment: true
+    branch: develop
+    supportsInstalls: true
     hasDrush: true
-    supportsInstall: true
-
-```
+    database:
+      name: drupal
+      user: root
+      pass: admin```
 
 
 4. [SSH agent forwarding must be enabled if you want to use all features of fabalicous] (https://developer.github.com/guides/using-ssh-agent-forwarding/).
