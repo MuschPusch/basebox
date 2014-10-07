@@ -8,7 +8,8 @@ To give some examples:
 `fab config copyFrom:staging.yourproject.com` # will fetch you the database and files from a remote instance to local
 
 But also:
-`fab config:live.yourproject.com copyFrom:staging.yourproject.com` # will fetch you the database and files from a remote instance to your staging environment
+
+`fab config:live.yourproject.com copyFrom:staging.yourproject.com # will fetch you the database and files from a remote instance to your staging environment`
 
 `fab config deploy:staging.yourproject.com # will fetch you the database and files from a remote instance to local`
 
@@ -16,6 +17,7 @@ But also:
 
 `fab config behat # will run your behat tests in your local docker instance`
 
+# Install
 1. Fetch this repo and it's submodules
 2. Follow the Fabalicous installation instructions: https://github.com/stmh/fabalicious (installing Fabric, pyyaml)
 3. Copy fabfile.default.yaml to fabfile.yaml and put your project info. 
