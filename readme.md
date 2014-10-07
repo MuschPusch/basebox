@@ -32,5 +32,5 @@ hosts:
 
 
 4. [SSH agent forwarding must be enabled if you want to use all features of fabalicous] (https://developer.github.com/guides/using-ssh-agent-forwarding/).
-5. `$ vagrant plugin install hostmanager`
+5. `$ vagrant plugin install hostmanager vagrant-fabric`
 6. `$ vagrant up`
