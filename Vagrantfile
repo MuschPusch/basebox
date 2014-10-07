@@ -64,9 +64,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.synced_folder ".", "/vagrant", nfs: true
 
-  #forward docker-ssh
-  config.vm.network "forwarded_port", guest: 2222, host: 222
-
   #increase memory
   config.vm.provider "virtualbox" do |v|
     v.customize ["modifyvm", :id, "--cpuexecutioncap", "80"]
