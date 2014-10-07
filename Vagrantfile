@@ -103,7 +103,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       s.inline = "cd /vagrant/_tools/docker ; bash ./run.sh $1 $2 --webRoot $3 --http 80 --ssh 222  --vhost $4"
     end
       s.privileged = true
-    s.args = [project_name, '/vagrant', '/var/www/public', sitename]
+    s.args = [project_name, '/vagrant', yamlConfig['hosts']['local']['rootFolder'], sitename]
   end
 
   if File.file?('vagrant.local')
