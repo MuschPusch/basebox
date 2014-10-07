@@ -22,7 +22,10 @@ project_name = yamlConfig['name']
 
 # IP Address for the host only network, change it to anything you like
 # but please keep it within the IPv4 private network range
-ip_address = "33.33.33.18"
+ip_address = yamlConfig['hosts']['local']['ip']
+if (defined?(ip_address)).nil?
+  ip_address = "33.33.33.18"
+end
 
 
 # Check hostmanager required plugin
@@ -95,9 +98,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # run or rebuild docker image
   config.vm.provision "shell",run: "always" do |s|
     if ARGV[0] == 'provision'
-      s.inline = "cd /vagrant/_tools/docker ; bash ./run.sh $1 $2 --webRoot $3 --http 80 --ssh 222  --vhost $4 --rebuild"
+      s.inline = "cd /vagrant/_tools/docker ; bash ./run.sh $1 $2 --webRoot $3 --http 80 --ssh 222  --vhost $4 --rebuild --no-install"
     else
-      s.inline = "cd /vagrant/_tools/docker ; bash ./run.sh $1 $2 --webRoot $3 --http 80 --ssh 222  --vhost $4"
+      s.inline = "cd /vagrant/_tools/docker ; bash ./run.sh $1 $2 --webRoot $3 --http 80 --ssh 222  --vhost $4 --no-install"
     end
       s.privileged = true
     s.args = [project_name, '/vagrant', yamlConfig['hosts']['local']['rootFolder'], sitename]
