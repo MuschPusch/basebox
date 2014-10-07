@@ -1,2 +1,5 @@
 .vagrant/
 fabfile.pyc
+bin/
+composer.lock
+vendor/
