@@ -1,16 +1,31 @@
 #Basebox
-A vagrant setup including Docker, deployment tools (Fabalicous) optimized for nice and easy Drupal development. With this setup you will get a local development machine which is docker based + deployment tools to fetch all sites data from remote instances.
+A vagrant setup including Docker, Behat testing and deployment tools (Fabalicous) optimized for nice and easy Drupal development. With this setup you will get a local development machine which is docker based + deployment tools to fetch all sites data from remote instances. To give an example:
+
+# Examples
+
+`fab config copyFrom:staging.yourproject.com` # will fetch you the database and files from a remote instance to local
+
+But also:
+`fab config:live.yourproject.com copyFrom:staging.yourproject.com` # will fetch you the database and files from a remote instance to your staging environment
+
+`fab config deploy:staging.yourproject.com` # will fetch you the database and files from a remote instance to local
+
+`fab config:live.yourproject.com deploy` # will run multiple commands on live: pull from git, revert features, clear cache etc.
+
+`fab config behat` # will run your behat tests in your local docker instance
 
 1. Fetch this repo and it's submodules
 2. Follow the Fabalicous installation instructions: https://github.com/stmh/fabalicious (installing Fabric, pyyaml)
-3. Copy fabfile.default.yaml to fabfile.yaml and put your project info. If you wanna just create a local version and be up and running quickly. Still it's highly recommended to have a look at the fabfile.default.yaml for all the options
+3. Copy fabfile.default.yaml to fabfile.yaml and put your project info. 
+
+If you wanna just create a local version and be up and running quickly use a minimum fabfile.yaml like below. Still it's highly recommended to have a look at the fabfile.default.yaml for all the options
 
 ```
-# Example config for Drupal 8 (would work for 7 too). You need to have drupal downloaded to 'public'
-name: drupal8
+# Example config for Drupal 7 (will work for Drupal 8 too). You need to have drupal downloaded to 'public'
+name: drupal7
 hosts:
   local:
-    host: d8.dev
+    host: d7.dev
     user: root
     password: root
     port: 222
@@ -31,6 +46,11 @@ hosts:
       pass: admin```
 
 
-4. [SSH agent forwarding must be enabled if you want to use all features of fabalicous] (https://developer.github.com/guides/using-ssh-agent-forwarding/).
+4. [SSH agent forwarding must be enabled if you want to use advanced features of fabalicous e.g. copyFrom remote Docker instances] (https://developer.github.com/guides/using-ssh-agent-forwarding/).
 5. `$ vagrant plugin install hostmanager vagrant-fabric`
 6. `$ vagrant up`
+
+# Behat integration
+1. Run `composer install` for installing behat. (This will take a while)
+2. Add `behatPath: /var/www/vendor/bin/behat` to your fabfile.yaml file
+3. To run your tests locally: `fab config behat`
