@@ -24,7 +24,7 @@ project_name = yamlConfig['name']
 # but please keep it within the IPv4 private network range
 ip_address = yamlConfig['hosts']['local']['ip']
 if (defined?(ip_address)).nil?
-  ip_address = "33.33.33.18"
+  ip_address = "33.33.33.19"
 end
 
 
