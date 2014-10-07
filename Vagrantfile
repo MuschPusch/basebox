@@ -22,7 +22,10 @@ project_name = yamlConfig['name']
 
 # IP Address for the host only network, change it to anything you like
 # but please keep it within the IPv4 private network range
-ip_address = "33.33.33.18"
+ip_address = yamlConfig['hosts']['local']['ip']
+if (defined?(ip_address)).nil?
+  ip_address = "33.33.33.18"
+end
 
 
 # Check hostmanager required plugin
@@ -63,9 +66,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.ssh.forward_agent = true
 
   config.vm.synced_folder ".", "/vagrant", nfs: true
-
-  #forward docker-ssh
-  config.vm.network "forwarded_port", guest: 2222, host: 222
 
   #increase memory
   config.vm.provider "virtualbox" do |v|
