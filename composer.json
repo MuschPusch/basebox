@@ -1,0 +1,9 @@
+{
+  "require": {
+    "drupal/drupal-extension": "1.0.*@stable",
+    "facebook/webdriver": "dev-master"
+  },
+  "config": {
+    "bin-dir": "bin/"
+  }
+}
