@@ -23,7 +23,7 @@ project_name = yamlConfig['name']
 # IP Address for the host only network, change it to anything you like
 # but please keep it within the IPv4 private network range
 ip_address = yamlConfig['hosts']['local']['ip']
-if (defined?(ip_address)).nil?
+if ip_address.nil? || ip_address.empty?
   ip_address = "33.33.33.18"
 end
 
@@ -85,15 +85,24 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   #  s.args = [File.read(File.expand_path('~/.ssh/id_rsa.pub'))]
   #end
 
-  if Dir.glob("#{File.dirname(__FILE__)}/.vagrant/machines/default/*/id").empty?
+  config.vm.provision "shell",run: "always" do |s|
     # Install Docker
     pkg_cmd = "wget -q -O - https://get.docker.io/gpg | apt-key add -;" \
       "echo deb http://get.docker.io/ubuntu docker main > /etc/apt/sources.list.d/docker.list;" \
       "apt-get update -qq; apt-get install -q -y --force-yes lxc-docker; "
     # Add vagrant user to the docker group
     pkg_cmd << "usermod -a -G docker vagrant; "
-    config.vm.provision :shell, :inline => pkg_cmd
+    s.inline = pkg_cmd
   end
+  # Install Docker
+  # add the docker key
+    #s.inline = "wget -q -O - https://get.docker.io/gpg | apt-key add -;" \
+                # sed below should do that
+                #"rm /etc/apt/sources.list.d/docker.list;" \
+                #"touch /etc/apt/sources.list.d/docker.list;" \
+                #"sed -i '1i deb http://get.docker.io/ubuntu docker main' /etc/apt/sources.list.d/docker.list;" \
+                #"echo deb http://get.docker.io/ubuntu docker main > /etc/apt/sources.list.d/docker.list;" \
+                #"apt-get update -qq; apt-get install -q -y --force-yes lxc-docker"
 
   # run or rebuild docker image
   config.vm.provision "shell",run: "always" do |s|
