@@ -17,7 +17,7 @@ yamlConfig = YAML.load_file(yamlFile)
 #sitename
 sitename = yamlConfig['hosts']['local']['host']
 # The project name is base for directories & the docker image name
-project_name = yamlConfig['name']
+project_name = yamlConfig['hosts']['local']['docker']['name']
 
 
 # IP Address for the host only network, change it to anything you like
