@@ -35,6 +35,9 @@ hosts:
     branch: develop
     hasDrush: true
     supportsInstall: true
+    docker:
+      # this is used as name for the docker-image + container
+      name: project_docker
     reset:
       - "drush vset -y devel_rebuild_theme_registry TRUE"
       - "drush vset -y file_public_path 'sites/default/files'"
