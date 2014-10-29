@@ -22,10 +22,22 @@ project_name = yamlConfig['hosts']['local']['docker']['name']
 
 # IP Address for the host only network, change it to anything you like
 # but please keep it within the IPv4 private network range
-ip_address = yamlConfig['hosts']['local']['ip']
-if ip_address.nil? || ip_address.empty?
-  ip_address = "33.33.33.18"
+
+ip_address =  "33.33.33.18"
+if yamlConfig['hosts']['local'] && yamlConfig['hosts']['local']['vagrant']
+  vagrantConfig = yamlConfig['hosts']['local']['vagrant']
+
+  if (vagrantConfig['ip'])
+    ip_address = vagrantConfig['ip']
+  end
+
+  if (vagrantConfig['localHttpPort'])
+    local_http_port = vagrantConfig['localHttpPort']
+  end
+elsif yamlConfig['hosts']['local'] && yamlConfig['hosts']['local']['ip']
+  ip_address = yamlConfig['hosts']['local']['ip']
 end
+
 
 
 # Check hostmanager required plugin
@@ -53,6 +65,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.network :private_network, ip: ip_address
+
+  if local_http_port
+    config.vm.network "forwarded_port", guest: 80, host: local_http_port
+  end
+
 
   # Use hostonly network with a static IP Address and enable
   # hostmanager so we can have a custom domain for the server
