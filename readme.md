@@ -1,5 +1,5 @@
 #Basebox
-A vagrant setup including Docker, Behat testing and deployment tools (Fabalicous) optimized for nice and easy Drupal development. With this setup you will get a local development machine which is docker based + deployment tools to fetch all sites data from remote instances. 
+A vagrant setup including Docker, Behat testing and deployment tools (Fabalicous) optimized for nice and easy Drupal development. With this setup you will get a local development machine which is docker based + deployment tools to fetch all sites data from remote instances.
 
 To give some examples:
 
@@ -20,12 +20,12 @@ But also:
 # Install
 1. Fetch this repo and it's submodules
 2. Follow the Fabalicous installation instructions: https://github.com/stmh/fabalicious (installing Fabric, pyyaml)
-3. Copy fabfile.default.yaml to fabfile.yaml and put your project info. 
+3. Copy fabfile.default.yaml to fabfile.yaml and put your project info.
 
 If you wanna just create a local version and be up and running quickly use a minimum fabfile.yaml like below. Still it's highly recommended to have a look at the fabfile.default.yaml for all the options
 
 ```
-# Example config for Drupal 7 (will work for Drupal 8 too). You need to have drupal downloaded to 'public'
+# Example config for Drupal 7 (will work for Drupal 8 too). You need to have drupal downloaded to 'public' (or adapt rootFolder accordingly)
 name: drupal7
 hosts:
   local:
@@ -44,10 +44,15 @@ hosts:
     branch: develop
     supportsInstalls: true
     hasDrush: true
+    vagrant:
+      ip: <ip-address>
+      localHttpPort: <local http port, optional>
     database:
       name: drupal
       user: root
       pass: admin
+    docker:
+      name: <docker-name>
 ```
 
 
