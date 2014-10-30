@@ -19,6 +19,13 @@ But also:
 
 # Install
 1. Fetch this repo and it's submodules
+```
+git clone https://github.com/MuschPusch/basebox.git
+git submodule init
+git submodule update
+
+```
+
 2. Follow the Fabalicous installation instructions: https://github.com/stmh/fabalicious (installing Fabric, pyyaml)
 3. Copy fabfile.default.yaml to fabfile.yaml and put your project info.
 

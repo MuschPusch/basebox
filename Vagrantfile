@@ -14,11 +14,22 @@ if !File.exist?(yamlFile)
 end
 
 yamlConfig = YAML.load_file(yamlFile)
-#sitename
-sitename = yamlConfig['hosts']['local']['host']
-# The project name is base for directories & the docker image name
-project_name = yamlConfig['hosts']['local']['docker']['name']
 
+# sitename
+if yamlConfig['hosts'] && yamlConfig['hosts']['local'] && yamlConfig['hosts']['local']['host']
+  sitename = yamlConfig['hosts']['local']['host']
+else
+  print "Could not find host in hosts/local of fabfile.yaml \n"
+  exit
+end
+
+# The project name is base for directories & the docker image name
+if yamlConfig['hosts']['local']['docker'] && yamlConfig['hosts']['local']['docker']['name']
+  project_name = yamlConfig['hosts']['local']['docker']['name']
+else
+  print "Could not find name in hosts/local/docker of fabfile.yaml \n"
+  exit
+end
 
 # IP Address for the host only network, change it to anything you like
 # but please keep it within the IPv4 private network range
