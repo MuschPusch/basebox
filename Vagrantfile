@@ -49,6 +49,7 @@ elsif yamlConfig['hosts']['local'] && yamlConfig['hosts']['local']['ip']
   ip_address = yamlConfig['hosts']['local']['ip']
 end
 
+puts "Using ip-address #{ip_address} for project '#{project_name}'."
 
 
 # Check hostmanager required plugin
