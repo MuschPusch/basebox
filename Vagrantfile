@@ -15,8 +15,9 @@ end
 
 yamlConfig = YAML.load_file(yamlFile)
 
-# sitename
+# sitename & ssh_port
 if yamlConfig['hosts'] && yamlConfig['hosts']['local'] && yamlConfig['hosts']['local']['host']
+  ssh_port = yamlConfig['hosts']['local']['port']
   sitename = yamlConfig['hosts']['local']['host']
 else
   print "Could not find host in hosts/local of fabfile.yaml \n"
@@ -136,12 +137,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # run or rebuild docker image
   config.vm.provision "shell",run: "always" do |s|
     if ARGV[0] == 'provision'
-      s.inline = "cd /vagrant/_tools/docker ; bash ./run.sh $1 $2 --webRoot $3 --http 80 --ssh 222  --vhost $4 --rebuild --no-install"
+      s.inline = "cd /vagrant/_tools/docker ; bash ./run.sh $1 $2 --webRoot $3 --http 80 --ssh $4  --vhost $5 --rebuild --no-install"
     else
-      s.inline = "cd /vagrant/_tools/docker ; bash ./run.sh $1 $2 --webRoot $3 --http 80 --ssh 222  --vhost $4 --no-install"
+      print ssh_port
+      s.inline = "cd /vagrant/_tools/docker ; bash ./run.sh $1 $2 --webRoot $3 --http 80 --ssh $4  --vhost $5 --no-install"
     end
       s.privileged = true
-    s.args = [project_name, '/vagrant', yamlConfig['hosts']['local']['rootFolder'], sitename]
+    s.args = [project_name, '/vagrant', yamlConfig['hosts']['local']['rootFolder'], ssh_port, sitename]
   end
 
   config.vm.provision :fabric do |fabric|
