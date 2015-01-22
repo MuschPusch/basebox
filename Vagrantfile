@@ -7,6 +7,15 @@ Vagrant.require_version ">= 1.6.5"
 require 'yaml'
 
 path = "#{File.dirname(__FILE__)}"
+
+# check if part of a multibasebox configuration:
+
+if File.exist?(path + '/../../VagrantFile') && File.exist?(path + '/../../projects')
+  print "This project is part of a multibasebox-setup, start the vagrant \nin the parent-directory \n"
+  print "\ncd ../..; vagrant up\n"
+  exit
+end
+
 yamlFile = path + '/fabfile.yaml'
 if !File.exist?(yamlFile)
   print "* No yaml configuration file found * \n"
